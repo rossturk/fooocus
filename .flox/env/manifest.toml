@@ -1,0 +1,22 @@
+[install]
+python310 = {}
+pip = {}
+
+[hook]
+script = """
+	if [ ! -d venv ]; then
+		echo "Creating virtual environment"
+		python -m venv venv
+	fi
+
+	echo "Activating virtual environment"
+	. venv/bin/activate
+
+	echo "Installing / updating packages"
+	pip3 -qq install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu
+	pip3 -qq install -r requirements_versions.txt
+	pip3 -qq install opencv-python
+
+	echo; echo "Type 'start' to launch interface"
+	alias start="python entry_with_update.py"
+"""
