@@ -1,24 +1,53 @@
-
 [install]
-python310 = {}
-pip = {}
+python3.path = "python3"
+pip.path = "python310Packages.pip"
+coreutils.path = "coreutils"
+imgcat.path = "imgcat"
 
 [hook]
 script = """
-	if [ ! -d venv ]; then
-		echo "Creating virtual environment"
-		python -m venv venv
+	echo ""
+
+	# ---
+	# get ourselves a working python - right now, that
+	# means a virtual environment
+	#
+	# this now lives in .flox instead of the main project root
+
+        if [ ! -d .flox/flox-venv ]; then
+                echo -n "🌏 creatin venv in .flox/flox-venv..."
+                python -m venv .flox/flox-venv
+		echo "boom!"
+        fi
+
+        echo -n "⚡️ activatin .flox/flox-venv..."
+        . .flox/flox-venv/bin/activate
+	echo "zing!"
+
+
+	# ---
+	# install python deps into the virtual environment
+
+	QUIET="-qq"
+
+	if [[ $(uname -m) == 'arm64' ]]; then
+        	echo -n "🔦 nabbin pytorch nightly..."
+        	pip3 $QUIET install --pre torch torchvision torchaudio \
+			--extra-index-url https://download.pytorch.org/whl/nightly/cpu
+		echo "pow!"
 	fi
 
-	echo; echo "Activating virtual environment"
-	. venv/bin/activate
+        if [ -f requirements_versions.txt ]; then
+        	echo -n "🐍 pippin reqs..."
+        	pip3 $QUIET install -r requirements_versions.txt
+		echo "zomg!"
+	fi
 
-	echo; echo "Installing / updating packages"
-	pip3 -qq install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu
-	pip3 -qq install -r requirements_versions.txt
-	pip3 -qq install opencv-python
+	[ ! -f .flox/flx.png ] && curl -Lso .flox/flx.png 'rtrk.us/flx.png'
+        echo;echo; imgcat .flox/flx.png
 
+	# ---
+	# set tha alias for our service and educate the user
 	echo; echo "Type 'start' to launch interface"
 	alias start="python entry_with_update.py"
 """
-

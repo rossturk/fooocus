@@ -1,1 +1,179 @@
-{"lockfile-version":0,"manifest":{"hook":{"script":"\tif [ ! -d venv ]; then\n\t\techo \"Creating virtual environment\"\n\t\tpython -m venv venv\n\tfi\n\n\techo; echo \"Activating virtual environment\"\n\t. venv/bin/activate\n\n\techo; echo \"Installing / updating packages\"\n\tpip3 -qq install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu\n\tpip3 -qq install -r requirements_versions.txt\n\tpip3 -qq install opencv-python\n\n\techo; echo \"Type 'start' to launch interface\"\n\talias start=\"python entry_with_update.py\"\n"},"install":{"pip":null,"python310":null},"registry":{"defaults":{"subtrees":null},"inputs":{"nixpkgs":{"from":{"owner":"NixOS","ref":"release-23.05","repo":"nixpkgs","type":"github"},"subtrees":["legacyPackages"]}},"priority":["nixpkgs"]}},"packages":{"aarch64-darwin":{"pip":{"attr-path":["legacyPackages","aarch64-darwin","python310Packages","pip"],"info":{"broken":false,"license":null,"pname":"pip","unfree":false,"version":"23.0.1"},"input":{"attrs":{"lastModified":1702350026,"narHash":"sha256-A+GNZFZdfl4JdDphYKBJ5Ef1HOiFsP18vQe9mqjmUis=","owner":"NixOS","repo":"nixpkgs","rev":"9463103069725474698139ab10f17a9d125da859","type":"github"},"fingerprint":"550c63475048284d5edf348d207a503c3d1d2fd0eb675aa88d0555c75c8d2b06","url":"github:NixOS/nixpkgs/9463103069725474698139ab10f17a9d125da859"},"priority":5},"python310":{"attr-path":["legacyPackages","aarch64-darwin","python310"],"info":{"broken":false,"license":"Python-2.0","pname":"python3","unfree":false,"version":"3.10.13"},"input":{"attrs":{"lastModified":1702350026,"narHash":"sha256-A+GNZFZdfl4JdDphYKBJ5Ef1HOiFsP18vQe9mqjmUis=","owner":"NixOS","repo":"nixpkgs","rev":"9463103069725474698139ab10f17a9d125da859","type":"github"},"fingerprint":"550c63475048284d5edf348d207a503c3d1d2fd0eb675aa88d0555c75c8d2b06","url":"github:NixOS/nixpkgs/9463103069725474698139ab10f17a9d125da859"},"priority":5}}},"registry":{"defaults":{"subtrees":null},"inputs":{"nixpkgs":{"from":{"lastModified":1702350026,"narHash":"sha256-A+GNZFZdfl4JdDphYKBJ5Ef1HOiFsP18vQe9mqjmUis=","owner":"NixOS","repo":"nixpkgs","rev":"9463103069725474698139ab10f17a9d125da859","type":"github"},"subtrees":["legacyPackages"]}},"priority":["nixpkgs"]}}
+{
+  "lockfile-version": 0,
+  "manifest": {
+    "hook": {
+      "script": "\techo \"\"\n\n\t# ---\n\t# get ourselves a working python - right now, that\n\t# means a virtual environment\n\t#\n\t# this now lives in .flox instead of the main project root\n\n        if [ ! -d .flox/flox-venv ]; then\n                echo -n \"🌏 creatin venv in .flox/flox-venv...\"\n                python -m venv .flox/flox-venv\n\t\techo \"boom!\"\n        fi\n\n        echo -n \"⚡️ activatin .flox/flox-venv...\"\n        . .flox/flox-venv/bin/activate\n\techo \"zing!\"\n\n\n\t# ---\n\t# install python deps into the virtual environment\n\n\tQUIET=\"-qq\"\n\n\tif [[ $(uname -m) == 'arm64' ]]; then\n        \techo -n \"🔦 nabbin pytorch nightly...\"\n        \tpip3 $QUIET install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cpu\n\t\techo \"pow!\"\n\tfi\n\n        if [ -f requirements_versions.txt ]; then\n        \techo -n \"🐍 pippin reqs...\"\n        \tpip3 $QUIET install -r requirements_versions.txt\n\t\techo \"zomg!\"\n\tfi\n\n\t[ ! -f .flox/flx.png ] && curl -Lso .flox/flx.png 'rtrk.us/flx.png'\n        echo;echo; imgcat .flox/flx.png\n\n\t# ---\n\t# set tha alias for our service and educate the user\n\techo; echo \"Type 'start' to launch interface\"\n\talias start=\"python entry_with_update.py\"\n"
+    },
+    "install": {
+      "coreutils": {
+        "path": "coreutils"
+      },
+      "imgcat": {
+        "path": "imgcat"
+      },
+      "pip": {
+        "path": "python310Packages.pip"
+      },
+      "python3": {
+        "path": "python3"
+      }
+    },
+    "registry": {
+      "defaults": {
+        "subtrees": null
+      },
+      "inputs": {
+        "nixpkgs": {
+          "from": {
+            "owner": "NixOS",
+            "ref": "release-23.05",
+            "repo": "nixpkgs",
+            "type": "github"
+          },
+          "subtrees": [
+            "legacyPackages"
+          ]
+        }
+      },
+      "priority": [
+        "nixpkgs"
+      ]
+    }
+  },
+  "packages": {
+    "aarch64-darwin": {
+      "coreutils": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "coreutils"
+        ],
+        "info": {
+          "broken": false,
+          "license": "GPL-3.0-or-later",
+          "pname": "coreutils",
+          "unfree": false,
+          "version": "9.1"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1702350026,
+            "narHash": "sha256-A+GNZFZdfl4JdDphYKBJ5Ef1HOiFsP18vQe9mqjmUis=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "9463103069725474698139ab10f17a9d125da859",
+            "type": "github"
+          },
+          "fingerprint": "550c63475048284d5edf348d207a503c3d1d2fd0eb675aa88d0555c75c8d2b06",
+          "url": "github:NixOS/nixpkgs/9463103069725474698139ab10f17a9d125da859"
+        },
+        "priority": 5
+      },
+      "imgcat": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "imgcat"
+        ],
+        "info": {
+          "broken": false,
+          "license": "ISC",
+          "pname": "imgcat",
+          "unfree": false,
+          "version": "2.5.1"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1702350026,
+            "narHash": "sha256-A+GNZFZdfl4JdDphYKBJ5Ef1HOiFsP18vQe9mqjmUis=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "9463103069725474698139ab10f17a9d125da859",
+            "type": "github"
+          },
+          "fingerprint": "550c63475048284d5edf348d207a503c3d1d2fd0eb675aa88d0555c75c8d2b06",
+          "url": "github:NixOS/nixpkgs/9463103069725474698139ab10f17a9d125da859"
+        },
+        "priority": 5
+      },
+      "pip": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "python310Packages",
+          "pip"
+        ],
+        "info": {
+          "broken": false,
+          "license": null,
+          "pname": "pip",
+          "unfree": false,
+          "version": "23.0.1"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1702350026,
+            "narHash": "sha256-A+GNZFZdfl4JdDphYKBJ5Ef1HOiFsP18vQe9mqjmUis=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "9463103069725474698139ab10f17a9d125da859",
+            "type": "github"
+          },
+          "fingerprint": "550c63475048284d5edf348d207a503c3d1d2fd0eb675aa88d0555c75c8d2b06",
+          "url": "github:NixOS/nixpkgs/9463103069725474698139ab10f17a9d125da859"
+        },
+        "priority": 5
+      },
+      "python3": {
+        "attr-path": [
+          "legacyPackages",
+          "aarch64-darwin",
+          "python3"
+        ],
+        "info": {
+          "broken": false,
+          "license": "Python-2.0",
+          "pname": "python3",
+          "unfree": false,
+          "version": "3.10.13"
+        },
+        "input": {
+          "attrs": {
+            "lastModified": 1702350026,
+            "narHash": "sha256-A+GNZFZdfl4JdDphYKBJ5Ef1HOiFsP18vQe9mqjmUis=",
+            "owner": "NixOS",
+            "repo": "nixpkgs",
+            "rev": "9463103069725474698139ab10f17a9d125da859",
+            "type": "github"
+          },
+          "fingerprint": "550c63475048284d5edf348d207a503c3d1d2fd0eb675aa88d0555c75c8d2b06",
+          "url": "github:NixOS/nixpkgs/9463103069725474698139ab10f17a9d125da859"
+        },
+        "priority": 5
+      }
+    }
+  },
+  "registry": {
+    "defaults": {
+      "subtrees": null
+    },
+    "inputs": {
+      "nixpkgs": {
+        "from": {
+          "lastModified": 1702350026,
+          "narHash": "sha256-A+GNZFZdfl4JdDphYKBJ5Ef1HOiFsP18vQe9mqjmUis=",
+          "owner": "NixOS",
+          "repo": "nixpkgs",
+          "rev": "9463103069725474698139ab10f17a9d125da859",
+          "type": "github"
+        },
+        "subtrees": [
+          "legacyPackages"
+        ]
+      }
+    },
+    "priority": [
+      "nixpkgs"
+    ]
+  }
+}
